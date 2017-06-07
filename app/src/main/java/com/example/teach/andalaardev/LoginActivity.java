@@ -1,8 +1,8 @@
 package com.example.teach.andalaardev;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -10,6 +10,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.teach.andalaardev.models.ResponseLogin;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+
+
 
 public class LoginActivity extends AppCompatActivity implements Animation.AnimationListener{
 
@@ -53,22 +68,11 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
         ingresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (usuario.getText().toString().equals("admin") &&
-                        pass.getText().toString().equals("1234")  ){
-                    Toast toastverdadero =
-                            Toast.makeText(getApplicationContext(),
-                                    "LOGEADO", Toast.LENGTH_SHORT);
-                    Intent ListaJuegos = new Intent(getApplicationContext(), ListaActivity.class);
-                    startActivity(ListaJuegos);
 
-                    toastverdadero.show();
-                }else{
-                    Toast toastfalso =
-                            Toast.makeText(getApplicationContext(),
-                                    "INCORRECTO", Toast.LENGTH_SHORT);
+                doLogin();
 
-                    toastfalso.show();
-                }
+                Intent ListaJuegos = new Intent(getApplicationContext(), ListaActivity.class);
+                startActivity(ListaJuegos);
             }
         });
     }
@@ -96,9 +100,9 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
         int tiempoAnimacion = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
         img_banner.animate()
-            .alpha(1f)
-            .setDuration(tiempoAnimacion)
-            .setListener(null);
+                .alpha(1f)
+                .setDuration(tiempoAnimacion)
+                .setListener(null);
         bienvenida.animate()
                 .alpha(1f)
                 .setDuration(tiempoAnimacion)
@@ -122,4 +126,41 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
     public void onAnimationRepeat(Animation animation) {
 
     }
+
+    private void doLogin() {
+
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor).build();
+        Gson gson = new GsonBuilder()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://vivo.duoc.cl/VivoMobileServer/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        ILogin service = retrofit.create(ILogin.class);
+
+        Call<ResponseLogin> repos = service.login(usuario.getText().toString(),
+                pass.getText().toString());
+        repos.enqueue(new Callback<ResponseLogin>() {
+            @Override
+            public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
+                if (response.code() == 200) {
+                    ResponseLogin values = response.body();
+                    Toast.makeText(LoginActivity.this, "Bienvenido: " + values.getPerfil().getNombreCompleto(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseLogin> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Datos Incorrectos", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
