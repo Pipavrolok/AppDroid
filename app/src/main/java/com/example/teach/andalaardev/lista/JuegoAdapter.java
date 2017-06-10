@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.teach.andalaardev.R;
 import com.example.teach.andalaardev.models.Juego;
 
@@ -37,7 +38,9 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.ViewHolder>{
             holder.Jtitulo.setText(model.getTitulo());
             holder.Jdescripcion.setText(model.getDescripcion());
             holder.Jprecio.setText("$ "+model.getPrecio().toString());
-            holder.JImgJuego.setImageResource(R.drawable.meg);
+
+            String url = "https://monsterlabs.cl/images/"+model.getImgJuego();
+            Glide.with(context).load(url).into(holder.JImgJuego);
 
         }catch (Exception e){
             e.printStackTrace();
