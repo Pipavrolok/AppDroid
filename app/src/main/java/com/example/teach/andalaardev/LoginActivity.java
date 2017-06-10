@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.teach.andalaardev.interfaces.ILogin;
 import com.example.teach.andalaardev.models.ResponseLogin;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
                 //Proceso de login
                 doLogin();
                 //Proceso de redireccion
-                Intent ListaJuegos = new Intent(getApplicationContext(), ListaActivity.class);
+                Intent ListaJuegos = new Intent(getApplicationContext(), NaviActivity.class);
                 startActivity(ListaJuegos);
             }
         });

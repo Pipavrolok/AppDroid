@@ -1,4 +1,4 @@
-package com.example.teach.andalaardev;
+package com.example.teach.andalaardev.interfaces;
 
 import com.example.teach.andalaardev.lista.ResponseJuego;
 
