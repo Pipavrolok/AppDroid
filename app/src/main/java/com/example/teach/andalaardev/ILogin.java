@@ -11,4 +11,5 @@ public interface ILogin {
     @GET("loginAlumno")
     Call<ResponseLogin> login(@Query("usuario") String user,
                               @Query("password") String pass);
+
 }

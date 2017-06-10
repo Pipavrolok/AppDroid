@@ -1,20 +1,42 @@
 package com.example.teach.andalaardev.models;
 
 
+import com.google.gson.annotations.SerializedName;
 
-public class Juego {
+import java.io.Serializable;
+
+public class Juego implements Serializable {
+    @SerializedName("idJuego")
     private String idJuego;
+
+    @SerializedName("titulo")
     private String titulo;
+
+    @SerializedName("descripcion")
     private String descripcion;
+
+    @SerializedName("precio")
     private Integer precio;
+
+    @SerializedName("reservado")
     private Boolean reservado;
+
+    @SerializedName("idVendedor")
     private String idVendedor;
+
+    @SerializedName("idComprador")
     private String idComprador;
+
+    @SerializedName("imgJuego")
+    private String imgJuego;
+
+    @SerializedName("categoria")
+    private String categoria;
 
     public Juego(){}
 
     public Juego(String idJuego, String titulo,String descripcion,Integer precio, Boolean reservado,
-                 String idVendedor, String idComprador) {
+                 String idVendedor, String idComprador,String imgJuego,String categoria) {
         this.setIdJuego(idJuego);
         this.setTitulo(titulo);
         this.setDescripcion(descripcion);
@@ -22,6 +44,8 @@ public class Juego {
         this.setReservado(reservado);
         this.setIdVendedor(idVendedor);
         this.setIdComprador(idComprador);
+        this.setImgJuego(imgJuego);
+        this.setCategoria(categoria);
     }
 
 
@@ -75,5 +99,21 @@ public class Juego {
 
     public void setIdComprador(String idComprador) {
         this.idComprador = idComprador;
+    }
+
+    public String getImgJuego() {
+        return imgJuego;
+    }
+
+    public void setImgJuego(String imgJuego) {
+        this.imgJuego = imgJuego;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String imgJuego) {
+        this.categoria = categoria;
     }
 }

@@ -68,9 +68,9 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
         ingresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //Proceso de login
                 doLogin();
-
+                //Proceso de redireccion
                 Intent ListaJuegos = new Intent(getApplicationContext(), ListaActivity.class);
                 startActivity(ListaJuegos);
             }

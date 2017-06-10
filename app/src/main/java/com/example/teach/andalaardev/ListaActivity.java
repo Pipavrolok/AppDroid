@@ -1,52 +1,93 @@
 package com.example.teach.andalaardev;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.example.teach.andalaardev.lista.JuegoAdapter;
+import com.example.teach.andalaardev.lista.ResponseJuego;
 import com.example.teach.andalaardev.models.Juego;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListaActivity extends AppCompatActivity {
 
-    private RecyclerView reciclador;
-    private RecyclerView.LayoutManager lmanager;
-    private RecyclerView.Adapter adaptador;
+    private ProgressDialog progressDialog;
 
+    private RecyclerView recycler;
+    private JuegoAdapter dataAdapter;
+    private List<Juego> dataArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista);
-        ArrayList<Juego> datosJuego = new ArrayList<Juego>();
 
-        //Falta Incorporar DataBase
-        datosJuego.add(new Juego("0","Resident Evil 7 PS4 Nuevo","Juego impecable se encuentra practicamente nuevo,uso adulto. Fue jugado y guardado en caja",25000, false,
-                "0", "1"));
-        datosJuego.add(new Juego("0","Mortal Kombat XL PS4 Nuevo","Juego impecable se encuentra practicamente nuevo,uso adulto. Fue jugado y guardado en caja",20000, false,
-                "0", "1"));
-        datosJuego.add(new Juego("0","Soul Reaver PS4","Juego impecable se encuentra practicamente nuevo,uso adulto. Fue jugado y guardado en caja",25000, false,
-                "0", "1"));
+        recycler = (RecyclerView) findViewById(R.id.recycler);
+        progressDialog = new ProgressDialog(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Ejecutar datos -Acuerdate
+        progressDialog.setTitle("Generando Datos");
+        progressDialog.setMessage("Cargando ...");
+        progressDialog.show();
 
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor).build();
+        Gson gson = new GsonBuilder()
+                .create();
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://monsterlabs.cl/AndalaarDev/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
 
-        reciclador = (RecyclerView) findViewById(R.id.recycler);
-        lmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        reciclador.setLayoutManager(lmanager);
+        IJuego service = retrofit.create(IJuego.class);
 
-        adaptador = new JuegoAdapter(datosJuego);
-        reciclador.setAdapter(adaptador);
+        Call<ResponseJuego> call = service.getAllDataJuego();
+
+        call.enqueue(new Callback<ResponseJuego>() {
+
+            @Override
+            public void onResponse(Call<ResponseJuego> call, Response<ResponseJuego> response) {
+                //----------------------------Entró aqui---------------------------------------------
+                if(response.code() ==200){
+                    ResponseJuego listFJuego = response.body();
+                    JuegoAdapter listaJuegoAdapter = new JuegoAdapter(listFJuego.getJuego(),ListaActivity.this);
+                    recycler.setLayoutManager(new LinearLayoutManager(ListaActivity.this));
+                    recycler.setItemAnimator(new DefaultItemAnimator());
+                    recycler.setAdapter(listaJuegoAdapter);
+                    progressDialog.dismiss();
+                }else{
+                    Toast.makeText(ListaActivity.this,"Error de Carga", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseJuego> call, Throwable t) {
+                Toast.makeText(ListaActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
 
     }
+
 
 }

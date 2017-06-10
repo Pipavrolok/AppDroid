@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imgProducto"
+            android:id="@+id/imgJuego"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
@@ -43,13 +43,13 @@
             android:id="@+id/lblDescripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imgProducto"
+            android:layout_alignBottom="@+id/imgJuego"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/lblTitulo"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/imgProducto"
+            android:layout_toRightOf="@+id/imgJuego"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="14dp" />
@@ -58,9 +58,9 @@
             android:id="@+id/btn_precio"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:layout_alignBottom="@+id/imgProducto"
-            android:layout_alignEnd="@+id/imgProducto"
-            android:layout_alignStart="@+id/imgProducto"
+            android:layout_alignBottom="@+id/imgJuego"
+            android:layout_alignEnd="@+id/imgJuego"
+            android:layout_alignStart="@+id/imgJuego"
             android:background="#72d60202"
             android:elevation="5dp"
             android:text="Precio"
