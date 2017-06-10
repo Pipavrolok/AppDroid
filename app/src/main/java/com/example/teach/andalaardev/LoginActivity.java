@@ -71,9 +71,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
             public void onClick(View view) {
                 //Proceso de login
                 doLogin();
-                //Proceso de redireccion
-                Intent ListaJuegos = new Intent(getApplicationContext(), NaviActivity.class);
-                startActivity(ListaJuegos);
+
             }
         });
     }
@@ -153,7 +151,14 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
             public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
                 if (response.code() == 200) {
                     ResponseLogin values = response.body();
-                    Toast.makeText(LoginActivity.this, "Bienvenido: " + values.getPerfil().getNombreCompleto(), Toast.LENGTH_SHORT).show();
+
+                    if (values.getPerfil().getNombreCompleto() != null){
+                        Toast.makeText(LoginActivity.this, "Bienvenido: " + values.getPerfil().getNombreCompleto(), Toast.LENGTH_SHORT).show();
+                        //Proceso de redireccion
+                        Intent ListaJuegos = new Intent(getApplicationContext(), NaviActivity.class);
+                        startActivity(ListaJuegos);
+                    }
+
                 }
             }
 
