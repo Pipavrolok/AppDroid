@@ -1,6 +1,7 @@
 package com.example.teach.andalaardev;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -155,7 +156,11 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
                     if (values.getPerfil().getNombreCompleto() != null){
                         Toast.makeText(LoginActivity.this, "Bienvenido: " + values.getPerfil().getNombreCompleto(), Toast.LENGTH_SHORT).show();
                         //Proceso de redireccion
+                         MediaPlayer tusti = MediaPlayer.create(getApplicationContext(),R.raw.toast);
+                        tusti.start();
                         Intent ListaJuegos = new Intent(getApplicationContext(), NaviActivity.class);
+                        ListaJuegos.putExtra("correo",values.getPerfil().getEmailDuoc());
+                        ListaJuegos.putExtra("nombre",values.getPerfil().getNombreCompleto());
                         startActivity(ListaJuegos);
                     }
 

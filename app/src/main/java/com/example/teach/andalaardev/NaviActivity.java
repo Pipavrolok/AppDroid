@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,11 +21,8 @@ import android.widget.Toast;
 import com.example.teach.andalaardev.interfaces.IJuego;
 import com.example.teach.andalaardev.lista.JuegoAdapter;
 import com.example.teach.andalaardev.lista.ResponseJuego;
-import com.example.teach.andalaardev.models.Juego;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -39,8 +37,7 @@ public class NaviActivity extends AppCompatActivity
     private ProgressDialog progressDialog;
 
     private RecyclerView recycler;
-    private JuegoAdapter dataAdapter;
-    private List<Juego> dataArrayList;
+    SwipeRefreshLayout swipeThis;
 
 
     @Override
@@ -48,56 +45,9 @@ public class NaviActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navi);
 
+        swipeThis = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         recycler = (RecyclerView) findViewById(R.id.recycler);
-        progressDialog = new ProgressDialog(this);
-
-        //Ejecutar datos -Acuerdate
-        progressDialog.setTitle("Generando Datos");
-        progressDialog.setMessage("Cargando ...");
-        progressDialog.show();
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor).build();
-        Gson gson = new GsonBuilder()
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://monsterlabs.cl/AndalaarDev/")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        IJuego service = retrofit.create(IJuego.class);
-
-        Call<ResponseJuego> call = service.getAllDataJuego();
-
-        call.enqueue(new Callback<ResponseJuego>() {
-
-            @Override
-            public void onResponse(Call<ResponseJuego> call, Response<ResponseJuego> response) {
-                //----------------------------Entró aqui---------------------------------------------
-                if(response.code() ==200){
-                    ResponseJuego listFJuego = response.body();
-                    JuegoAdapter listaJuegoAdapter = new JuegoAdapter(listFJuego.getJuego(),NaviActivity.this);
-                    recycler.setLayoutManager(new LinearLayoutManager(NaviActivity.this));
-                    recycler.setItemAnimator(new DefaultItemAnimator());
-                    recycler.setAdapter(listaJuegoAdapter);
-                    progressDialog.dismiss();
-                }else{
-                    Toast.makeText(NaviActivity.this,"Error de Carga", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseJuego> call, Throwable t) {
-                Toast.makeText(NaviActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
-
+        cargarLaData();
         //Barra modificarla
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -121,7 +71,22 @@ public class NaviActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
+        swipeThis.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+
+            @Override
+            public void onRefresh() {
+                //refresh
+                cargarLaData();
+                Toast.makeText(NaviActivity.this, "actualizando data", Toast.LENGTH_SHORT).show();
+                swipeThis.setRefreshing(false);
+            }
+        });
+        
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -171,5 +136,56 @@ public class NaviActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void cargarLaData(){
+        progressDialog = new ProgressDialog(this);
+
+        //Ejecutar datos -Acuerdate
+        progressDialog.setTitle("Generando Datos");
+        progressDialog.setMessage("Cargando ...");
+        progressDialog.show();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor).build();
+        Gson gson = new GsonBuilder()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://monsterlabs.cl/AndalaarDev/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        IJuego service = retrofit.create(IJuego.class);
+
+        Call<ResponseJuego> call = service.getAllDataJuego();
+
+        call.enqueue(new Callback<ResponseJuego>() {
+
+            @Override
+            public void onResponse(Call<ResponseJuego> call, Response<ResponseJuego> response) {
+                //----------------------------Entró aqui---------------------------------------------
+                if(response.code() ==200){
+                    ResponseJuego listFJuego = response.body();
+                    JuegoAdapter listaJuegoAdapter = new JuegoAdapter(listFJuego.getJuego(),NaviActivity.this);
+                    recycler.setLayoutManager(new LinearLayoutManager(NaviActivity.this));
+                    recycler.setItemAnimator(new DefaultItemAnimator());
+                    recycler.setAdapter(listaJuegoAdapter);
+                    progressDialog.dismiss();
+                }else{
+                    Toast.makeText(NaviActivity.this,"Error de Carga", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseJuego> call, Throwable t) {
+                Toast.makeText(NaviActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
     }
 }
