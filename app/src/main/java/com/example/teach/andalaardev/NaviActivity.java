@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.teach.andalaardev.interfaces.IJuego;
@@ -38,13 +39,17 @@ public class NaviActivity extends AppCompatActivity
 
     private RecyclerView recycler;
     SwipeRefreshLayout swipeThis;
-
-
+    String nombreDuoc;
+    String correoDuoc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navi);
 
+        nombreDuoc = getIntent().getStringExtra("nombre");
+        correoDuoc = getIntent().getStringExtra("correo");
+
+        //inicializacion de datos
         swipeThis = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         recycler = (RecyclerView) findViewById(R.id.recycler);
         cargarLaData();
@@ -68,7 +73,15 @@ public class NaviActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
+        //Seccion navegacion lateral
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_mail = (TextView)hView.findViewById(R.id.lblcorreoAvatar);
+        nav_mail.setText(correoDuoc);
+        TextView nav_name = (TextView)hView.findViewById(R.id.lblnombreAvatar);
+        nav_name.setText(nombreDuoc);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -79,11 +92,11 @@ public class NaviActivity extends AppCompatActivity
             public void onRefresh() {
                 //refresh
                 cargarLaData();
-                Toast.makeText(NaviActivity.this, "actualizando data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NaviActivity.this, "Data Actualizada", Toast.LENGTH_SHORT).show();
                 swipeThis.setRefreshing(false);
             }
         });
-        
+
 
     }
 
@@ -137,7 +150,7 @@ public class NaviActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    //Metodo encargado de llenar la data desde servicio rest
     public void cargarLaData(){
         progressDialog = new ProgressDialog(this);
 

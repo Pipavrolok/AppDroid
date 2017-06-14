@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.teach.andalaardev.R;
@@ -31,7 +32,7 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder,final int position) {
         Juego model = listJuego.get(position);
 
         try{
@@ -45,6 +46,15 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.ViewHolder>{
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //modificar y crear Intent para enviar data a detalle.xml
+                Toast.makeText(view.getContext(), "Recycle Click " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -60,8 +70,8 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.ViewHolder>{
         private ImageView JImgJuego;
 
         public ViewHolder(View itemView) {
-            super(itemView);
 
+            super(itemView);
             Jtitulo = (TextView) itemView.findViewById(R.id.lblTitulo);
             Jdescripcion = (TextView) itemView.findViewById(R.id.lblDescripcion);
             Jprecio = (TextView) itemView.findViewById(R.id.btn_precio);

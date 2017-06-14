@@ -20,16 +20,17 @@
         app:srcCompat="@drawable/rockman" />
 
     <TextView
+        android:id="@+id/lblnombreAvatar"
+        android:text="user"
         android:layout_width="match_parent"
-        android:id="@+id/nombreAvatar"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/correoAvatar"
+        android:id="@+id/lblcorreoAvatar"
+        android:text="correo@gmail.com"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
