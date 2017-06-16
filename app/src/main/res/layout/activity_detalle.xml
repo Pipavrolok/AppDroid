@@ -1,96 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.example.teach.andalaardev.DetalleActivity">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="66dp"
-        android:layout_height="61dp"
-        android:clickable="true"
-        app:elevation="24dp"
-        app:fabSize="mini"
-        app:srcCompat="@mipmap/ic_launcher"
-        tools:layout_editor_absoluteX="307dp"
-        tools:layout_editor_absoluteY="220dp" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="349dp"
-        android:layout_height="239dp"
-        android:elevation="20dp"
-        app:srcCompat="@drawable/meg"
-        tools:layout_editor_absoluteX="18dp"
-        tools:layout_editor_absoluteY="6dp" />
-
-    <TextView
-        android:id="@+id/txt_titulo"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:text="TextView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="264dp"
-        tools:text="Titulo del Juego" />
-
-    <TextView
-        android:id="@+id/descrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:text="TextView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="304dp"
-        tools:text="Descripción" />
-
-    <TextView
-        android:id="@+id/txt_descripcion"
-        android:layout_width="326dp"
-        android:layout_height="114dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:text="TextView"
+        android:background="@color/cardview_dark_background"
+        android:fitsSystemWindows="true"
         android:textAlignment="center"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="341dp"
-        tools:text="asdasd asd asdasd asdasdasdasd asdasdasd asdasdasd asdasd asdasd asda sdasd asdasda sd asd asdasdas asda sdasdasd" />
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteY="259dp"
-        tools:layout_editor_absoluteX="16dp" />
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@android:color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <ImageView
+                android:id="@+id/img_parallax"
+                android:layout_width="match_parent"
+                android:layout_height="390dp"
+                android:adjustViewBounds="true"
+                android:cropToPadding="false"
+                android:textAlignment="center"
+                app:srcCompat="@drawable/watch" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_detalle" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_dialog_email"
-        tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="509dp" />
+        android:id="@+id/user_fab"
+        android:layout_width="76dp"
+        android:layout_height="64dp"
+        app:backgroundTint="?attr/colorPrimaryDark"
+        app:elevation="5dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:rippleColor="@color/colorPrimary"
+        app:srcCompat="@drawable/rockman" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/sym_call_outgoing"
-        tools:layout_editor_absoluteX="206dp"
-        tools:layout_editor_absoluteY="509dp" />
-
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

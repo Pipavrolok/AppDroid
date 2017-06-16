@@ -1,15 +1,16 @@
 package com.example.teach.andalaardev.lista;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.teach.andalaardev.DetalleActivity;
 import com.example.teach.andalaardev.R;
 import com.example.teach.andalaardev.models.Juego;
 
@@ -32,8 +33,8 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder,final int position) {
-        Juego model = listJuego.get(position);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final Juego model = listJuego.get(position);
 
         try{
             holder.Jtitulo.setText(model.getTitulo());
@@ -52,7 +53,15 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.ViewHolder>{
             public void onClick(View view) {
 
                 //modificar y crear Intent para enviar data a detalle.xml
-                Toast.makeText(view.getContext(), "Recycle Click " + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, DetalleActivity.class);
+                intent.putExtra("titulo",model.getTitulo());
+                intent.putExtra("descripcion",model.getDescripcion());
+                intent.putExtra("precio",model.getPrecio().toString());
+                intent.putExtra("categoria",model.getCategoria());
+                intent.putExtra("imagen",model.getImgJuego());
+                intent.putExtra("idVendedor",model.getIdVendedor());
+
+                context.startActivity(intent);
             }
         });
     }

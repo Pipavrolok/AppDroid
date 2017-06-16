@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.teach.andalaardev">
 
+    <uses-permission android:name="android.permission.CALL_DIAL" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -25,7 +26,10 @@
             android:name=".NaviActivity"
             android:label="Lista de Juegos"
             android:theme="@style/AppTheme" />
-        <activity android:name=".DetalleActivity"></activity>
+        <activity
+            android:name=".DetalleActivity"
+            android:label="Detalle de Juego"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

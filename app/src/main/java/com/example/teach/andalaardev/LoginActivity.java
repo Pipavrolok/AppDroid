@@ -71,7 +71,8 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
             @Override
             public void onClick(View view) {
                 //Proceso de login
-                doLogin();
+                //doLogin();
+                loginrapido();
 
             }
         });
@@ -125,6 +126,10 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
     @Override
     public void onAnimationRepeat(Animation animation) {
 
+    }
+    private void loginrapido(){
+        Intent ListaJuegos = new Intent(getApplicationContext(), NaviActivity.class);
+        startActivity(ListaJuegos);
     }
 
     private void doLogin() {

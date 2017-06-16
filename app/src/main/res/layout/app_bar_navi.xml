@@ -10,7 +10,9 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <include layout="@layout/content_navi" />
+
+                <include layout="@layout/content_navi" />
+
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
