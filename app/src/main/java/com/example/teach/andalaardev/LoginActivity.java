@@ -71,8 +71,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
             @Override
             public void onClick(View view) {
                 //Proceso de login
-                //doLogin();
-                loginrapido();
+                doLogin();
 
             }
         });
