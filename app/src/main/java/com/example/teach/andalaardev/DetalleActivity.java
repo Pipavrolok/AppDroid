@@ -53,7 +53,7 @@ public class DetalleActivity extends AppCompatActivity {
         /* imagen*/
         str_img = getIntent().getStringExtra("imagen");
         apLayout = (ImageView) findViewById(R.id.img_parallax);
-        String url = "https://monsterlabs.cl/images/"+str_img;
+        String url = "http://www.digisat.cl/AndalaarDev/images/"+str_img;
         Glide.with(getApplicationContext()).load(url).into(apLayout);
         /* Fin imagen */
 

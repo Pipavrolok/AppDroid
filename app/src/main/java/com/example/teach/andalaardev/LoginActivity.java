@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
             public void onClick(View view) {
                 //Proceso de login
                 doLogin();
+                //loginrapido();
 
             }
         });
@@ -167,6 +168,7 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
                         ListaJuegos.putExtra("nombre",values.getPerfil().getNombreCompleto());
                         startActivity(ListaJuegos);
                     }
+                    Toast.makeText(LoginActivity.this, "INCORRECTO", Toast.LENGTH_SHORT).show();
 
                 }
             }

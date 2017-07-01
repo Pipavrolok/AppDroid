@@ -12,6 +12,6 @@ import retrofit2.http.Query;
 
 public interface IUser {
 
-    @GET("user.php")
+    @GET("User.php")
     Call<ResponseUser> getUser(@Query("idUsuario") String user);
 }

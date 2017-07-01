@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 import com.example.teach.andalaardev.interfaces.IJuego;
 import com.example.teach.andalaardev.lista.JuegoAdapter;
 import com.example.teach.andalaardev.lista.ResponseJuego;
+import com.example.teach.andalaardev.models.Juego;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -41,6 +41,7 @@ public class NaviActivity extends AppCompatActivity
     SwipeRefreshLayout swipeThis;
     String nombreDuoc;
     String correoDuoc;
+    FloatingActionButton FloatingActionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +59,45 @@ public class NaviActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //Floatin Agregar Juego
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton asd = (FloatingActionButton) findViewById(R.id.btn_add);
+        asd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Agregar Juego", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Juego juego = new Juego(
+                        "999", "test","asdasd",500, false,
+                        "1", "1","1.jpg","prueba"
+                );
+
+                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .addInterceptor(interceptor).build();
+                Gson gson = new GsonBuilder()
+                        .create();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://www.digisat.cl/AndalaarDev/")
+                        .client(client)
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+
+                IJuego service = retrofit.create(IJuego.class);
+
+                Call<Juego> call  = service.agregarJuego(juego);
+                call.enqueue(new Callback<Juego>() {
+
+                    @Override
+                    public void onResponse(Call<Juego> call, Response<Juego> response) {
+                    }
+
+                    @Override
+                    public void onFailure(Call<Juego> call, Throwable t) {
+
+                    }
+                });
+
+
+
             }
         });
 
@@ -96,7 +130,6 @@ public class NaviActivity extends AppCompatActivity
                 swipeThis.setRefreshing(false);
             }
         });
-
 
     }
 
@@ -167,7 +200,7 @@ public class NaviActivity extends AppCompatActivity
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://monsterlabs.cl/AndalaarDev/")
+                .baseUrl("http://www.digisat.cl/AndalaarDev/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -201,4 +234,5 @@ public class NaviActivity extends AppCompatActivity
             }
         });
     }
+
 }

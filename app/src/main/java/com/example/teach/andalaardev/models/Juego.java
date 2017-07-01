@@ -33,7 +33,7 @@ public class Juego implements Serializable {
     @SerializedName("categoria")
     private String categoria;
 
-    public Juego(){}
+    public Juego(String agregar, String s, String s1, String s2, int i, boolean b, String s3, String s4, String s5, String prueba){}
 
     public Juego(String idJuego, String titulo,String descripcion,Integer precio, Boolean reservado,
                  String idVendedor, String idComprador,String imgJuego,String categoria) {

@@ -41,7 +41,7 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.ViewHolder>{
             holder.Jdescripcion.setText(model.getDescripcion());
             holder.Jprecio.setText("$ "+model.getPrecio().toString());
 
-            String url = "https://monsterlabs.cl/images/"+model.getImgJuego();
+            String url = "http://www.digisat.cl/AndalaarDev/images/"+model.getImgJuego();
             Glide.with(context).load(url).into(holder.JImgJuego);
 
         }catch (Exception e){
